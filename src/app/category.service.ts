@@ -11,6 +11,8 @@ export class CategoryService {
 
   getCategories() {
     return this.db
-      .list('/categories', query => query.orderByChild('name')).snapshotChanges();
+      .list('/categories', query => query.orderByChild('name'))
+      .snapshotChanges()
+      .pipe(map(actions => actions.map(a => ({ key: a.key, obj: a.payload.val() }))));
   }
 }
