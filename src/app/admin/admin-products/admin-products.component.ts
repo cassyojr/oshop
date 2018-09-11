@@ -41,7 +41,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   filter(query: string) {
     let innerQuery = query.trim().toLowerCase();
-    this.filteredProducts = query ?
+    this.dsProducts.data = this.filteredProducts = query ?
       this.products.filter(p => p.title.toLowerCase().includes(innerQuery)) :
       this.products;
   }
