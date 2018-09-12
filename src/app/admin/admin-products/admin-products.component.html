@@ -6,17 +6,17 @@
 </p>
 
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dsProducts">
+    <table mat-table matSort [dataSource]="dsProducts">
 
         <!-- Title Column -->
         <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> Title </th>
             <td mat-cell *matCellDef="let product"> {{product.title}} </td>
         </ng-container>
 
         <!-- Price Column -->
         <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> Price </th>
             <td mat-cell *matCellDef="let product"> {{product.price | currency:'USD':true }} </td>
         </ng-container>
 

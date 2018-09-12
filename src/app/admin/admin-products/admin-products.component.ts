@@ -2,7 +2,7 @@ import { ProductService } from './../../product.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Product } from '../../models/product';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, Sort } from '@angular/material';
 
 @Component({
   selector: 'app-admin-products',
@@ -14,7 +14,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   products: Product[];
-  filteredProducts: Product[];
   subscription: Subscription;
 
   // Datatable
@@ -25,7 +24,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.subscription = this.productService
       .getAll()
       .subscribe(products => {
-        this.dsProducts.data = this.filteredProducts = this.products = products.map(
+        this.dsProducts.data = this.products = products.map(
           product => {
             return <Product>{
               key: product['key'],
@@ -41,7 +40,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   filter(query: string) {
     let innerQuery = query.trim().toLowerCase();
-    this.dsProducts.data = this.filteredProducts = query ?
+    this.dsProducts.data = query ?
       this.products.filter(p => p.title.toLowerCase().includes(innerQuery)) :
       this.products;
   }
