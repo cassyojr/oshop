@@ -23,19 +23,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService) {
     this.subscription = this.productService
       .getAll()
-      .subscribe(products => {
-        this.dsProducts.data = this.products = products.map(
-          product => {
-            return <Product>{
-              key: product['key'],
-              title: product.obj['title'],
-              category: product.obj['category'],
-              imageUrl: product.obj['imageUrl'],
-              price: product.obj['price']
-            }
-          }
-        )
-      });
+      .subscribe(products => this.dsProducts.data = this.products = products);
   }
 
   filter(query: string) {

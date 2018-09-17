@@ -18,7 +18,15 @@ export class ProductService {
     return this.db
       .list('/products')
       .snapshotChanges()
-      .pipe(map(actions => actions.map(a => ({ key: a.key, obj: a.payload.val() }))));
+      .pipe(map(actions => actions.map<Product>(a => {
+        return <Product>{
+          key: a.key,
+          title: a.payload.child('title').val(),
+          category: a.payload.child('category').val(),
+          imageUrl: a.payload.child('imageUrl').val(),
+          price : a.payload.child('price').val()
+        }
+      })));
   }
 
   get(productId) {
