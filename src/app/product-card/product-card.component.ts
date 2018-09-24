@@ -10,22 +10,23 @@ import { Product } from '../models/product';
 export class ProductCardComponent {
   @Input('product') product: Product;
   @Input('show-actions') showActions: boolean = true;
+  @Input('shopping-cart') shoppingCart;
 
-  constructor(private cartService: ShoppingCartService) {
+  constructor(private cartService: ShoppingCartService) { }
 
+  addToCart() {
+    this.cartService.addToCart(this.product);
   }
 
-  addToCart(product: Product) {
-    let cartId = localStorage.getItem('cartId');
+  removeFromCart() {
+    this.cartService.removeFromCart(this.product);
+  }
 
-    if (!cartId) {
-      this.cartService.create().then(result => {
-        localStorage.setItem('cartId', result.key);
+  getQuantity() {
+    if (!this.shoppingCart) return 0;
 
-        // Add product to cart
-      });
-    } else {
-      // Add product to cart
-    }
+    let item = this.shoppingCart.items[this.product.key];
+
+    return item ? item.quantity : 0;
   }
 }
