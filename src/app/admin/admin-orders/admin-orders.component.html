@@ -1,3 +1,31 @@
-<p>
-  admin-orders works!
-</p>
+<h2>Orders</h2>
+
+<div style="overflow: auto;" class="mat-elevation-z8">
+  <table mat-table matSort [dataSource]="dsOrders">
+
+    <!-- Customer Column -->
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Customer </th>
+      <td mat-cell *matCellDef="let order"> {{ order.obj.shipping.name }} </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let order"> {{ order.obj.datePlaced | date:'mediumDate'}} </td>
+    </ng-container>
+
+    <!-- View Column -->
+    <ng-container matColumnDef="view">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let order" class="text-right">
+        <a [routerLink]="['/admin/orders/', order.key]">View</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,16 +1,20 @@
+import { Observable } from 'rxjs';
+import { ShoppingCartService } from './../shopping-cart.service';
 import { Component, OnInit } from '@angular/core';
+import { ShoppingCart } from '../models/shopping-cart';
 
 @Component({
   selector: 'app-check-out',
   templateUrl: './check-out.component.html',
   styleUrls: ['./check-out.component.css']
 })
-export class CheckOutComponent {
+export class CheckOutComponent implements OnInit {
+  cart$: Observable<ShoppingCart>;
 
-  shipping = {};
+  constructor(private shoppingCartService: ShoppingCartService) { }
 
-  placeOrder() {
-    console.log(this.shipping);
+  async ngOnInit() {
+    this.cart$ = await this.shoppingCartService.getCart();
   }
 
 }

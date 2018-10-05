@@ -20,11 +20,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['title', 'price', 'edit'];
   dsProducts = new MatTableDataSource();
 
-  constructor(private productService: ProductService) {
-    this.subscription = this.productService
-      .getAll()
-      .subscribe(products => this.dsProducts.data = this.products = products);
-  }
+  constructor(private productService: ProductService) { }
 
   filter(query: string) {
     let innerQuery = query.trim().toLowerCase();
@@ -38,6 +34,10 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.subscription = this.productService
+      .getAll()
+      .subscribe(products => this.dsProducts.data = this.products = products);
+
     this.dsProducts.paginator = this.paginator;
     this.dsProducts.sort = this.sort;
   }
