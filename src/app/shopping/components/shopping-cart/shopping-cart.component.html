@@ -1,0 +1,55 @@
+<h1>Shopping Cart</h1>
+<div class="card" *ngIf="cart$ | async as cart">
+  <div class="card-body">
+    <p>
+      You have {{ cart.totalItemsCount }} items in your shopping cart.
+      <button *ngIf="cart.items.length" (click)="clearCart()" class="btn btn-light btn-sm float-right">Clear Shopping Cart</button>
+    </p>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dsProducts">
+
+      <!-- Thumbnail Column -->
+      <ng-container matColumnDef="thumbnail">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let product">
+          <div [style.backgroundImage]="'url(' + product.imageUrl + ')'" class="thumbnail"></div>
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="font-weight-bold">Total</td>
+      </ng-container>
+
+      <!-- Product Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Product </th>
+        <td mat-cell *matCellDef="let product"> {{ product.title }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let product" style="width: 230px;">
+          <product-quantity [product]="product" [shopping-cart]="cart"></product-quantity>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let product" class="text-right"> {{ product.price | currency:'USD' }} </td>
+        <td mat-footer-cell *matFooterCellDef class="text-right font-weight-bold"> {{ cart.totalPrice | currency:'USD' }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="card-body">
+    <a class="btn btn-primary mt-3 float-right" *ngIf="cart.items.length" routerLink="/check-out">Check Out</a>
+  </div>
+</div>
