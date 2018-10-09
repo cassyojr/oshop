@@ -3,6 +3,7 @@ import { CategoryService } from '../../../shared/services/category.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../shared/services/product.service';
 import { take } from 'rxjs/operators';
+import { Product } from 'shared/models/product';
 
 
 @Component({
@@ -12,13 +13,14 @@ import { take } from 'rxjs/operators';
 })
 export class ProductFormComponent {
   categories$;
-  product = {};
+  product: Product = {} as Product;
   id;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private categoryService: CategoryService,
-    private productService: ProductService) {
+    private productService: ProductService,
+    categoryService: CategoryService) {
     this.categories$ = categoryService.getAll();
 
     this.id = this.route.snapshot.paramMap.get('id');

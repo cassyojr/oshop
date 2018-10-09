@@ -1,7 +1,8 @@
-import { Product } from '../models/product';
+import { Product } from 'shared/models/product';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +25,22 @@ export class ProductService {
           title: a.payload.child('title').val(),
           category: a.payload.child('category').val(),
           imageUrl: a.payload.child('imageUrl').val(),
-          price : a.payload.child('price').val()
+          price: a.payload.child('price').val()
         }
       })));
   }
 
-  get(productId) {
-    return this.db.object('/products/' + productId).valueChanges();
+  get(productId): Observable<Product> {
+    return this.db
+      .object('/products/' + productId)
+      .valueChanges()
+      .pipe(map((p: Product) =>
+        <Product>{
+          category: p.category,
+          title: p.title,
+          price: p.price,
+          imageUrl: p.imageUrl
+        }));
   }
 
   update(productId, product) {
